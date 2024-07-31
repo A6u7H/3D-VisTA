@@ -20,5 +20,3 @@ def get_bert_lang_encoder(num_hidden_layer=3):
         'bert-base-uncased', config=txt_bert_config
     )
     return txt_encoder
-
-

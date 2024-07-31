@@ -83,7 +83,7 @@ pipeline:
       load_dir: project/pretrain_weights
       load_name: sr3d.pth
 
-  batch_size: 64
+  batch_size: 4
   learning_rate: 1.0e-4
   grad_norm: 3.0
   epochs: 50

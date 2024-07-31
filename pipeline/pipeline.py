@@ -213,14 +213,35 @@ class OptimusPrimePipeline(Pipeline, NormalDataloaderMixin, ModelOptimizationMix
             lang_basic_features = self.lang_encoder(data_dict['txt_ids'], causal_mask).last_hidden_state
         else:
             lang_basic_features = self.lang_encoder(data_dict['txt_ids'], data_dict['txt_masks']).last_hidden_state
-        point_basic_features, point_features_pre, obj_cls_raw_logits = self.point_encoder(data_dict['obj_fts'].float(), data_dict['obj_locs'], data_dict['obj_masks'], data_dict['obj_sem_masks'], 
-                                                                                          data_dict['obj_labels'], data_dict['cur_step'], data_dict['total_steps'])
+        point_basic_features, point_features_pre, obj_cls_raw_logits = self.point_encoder(
+            data_dict['obj_fts'].float(),
+            data_dict['obj_locs'],
+            data_dict['obj_masks'],
+            data_dict['obj_sem_masks'], 
+            data_dict['obj_labels'],
+            data_dict['cur_step'],
+            data_dict['total_steps']
+        )
         
         # unifed language entity transformer
         if self.task == 'caption':
-            language_fuse_feature, point_fuse_feature  = self.unified_encoder(lang_basic_features, data_dict['txt_masks'], point_basic_features, data_dict['obj_locs'], data_dict['obj_masks'], data_dict['tgt_object_id'], True)
+            language_fuse_feature, point_fuse_feature  = self.unified_encoder(
+                lang_basic_features,
+                data_dict['txt_masks'],
+                point_basic_features,
+                data_dict['obj_locs'],
+                data_dict['obj_masks'],
+                data_dict['tgt_object_id'],
+                True
+            )
         else:
-            language_fuse_feature, point_fuse_feature  = self.unified_encoder(lang_basic_features, data_dict['txt_masks'], point_basic_features, data_dict['obj_locs'], data_dict['obj_masks'])
+            language_fuse_feature, point_fuse_feature  = self.unified_encoder(
+                lang_basic_features,
+                data_dict['txt_masks'],
+                point_basic_features,
+                data_dict['obj_locs'],
+                data_dict['obj_masks']
+            )
         
         # task head
         txt_cls_logits, obj_cls_post_logits, obj_cls_pre_logits, og3d_logits = self.ground_head(language_fuse_feature, point_fuse_feature, point_features_pre, data_dict['obj_masks'])

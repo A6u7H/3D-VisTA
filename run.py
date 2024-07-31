@@ -4,7 +4,7 @@ import argparse
 
 def get_arg_parse():
     parser = argparse.ArgumentParser(description='config path')
-    parser.add_argument('--config', type=str, default=None, help='path of cfg')
+    parser.add_argument('--config', type=str, default="project/vista/sr3d_config.yml", help='path of cfg')
     args = parser.parse_args()
     return args
 
